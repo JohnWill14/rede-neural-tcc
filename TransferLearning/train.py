@@ -1,112 +1,166 @@
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-import matplotlib.pyplot as plt
+import os
+
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from sklearn.model_selection import StratifiedGroupKFold
-from sklearn.preprocessing import StandardScaler
-import tensorflow_hub as hub
-from tensorflow.keras import layers
+from sklearn.preprocessing import LabelEncoder
+from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.layers import Flatten, Dense
+from tensorflow.keras.models import Model
+from tensorflow_datasets.object_detection.open_images_challenge2019_beam import cv2
 
-FILE_TRAIN = '../dataset/train.csv'
+# Define the image size
+IMG_WIDTH = 224
+IMG_HEIGHT = 224
+NUM_CHANNELS = 3  # Assuming your images are RGB
 
-def get_dataset_data_frame(show_logs=False):
-    caminho_arquivo_file_train = FILE_TRAIN
-    df = pd.read_csv(caminho_arquivo_file_train)
+DATA_TRAIN = "../dataset/EEG_Spectrograms"
+FILE_CONFIG_TRAIN = "../dataset/train.csv"
 
-    colunas_selecionadas = ['eeg_id', 'expert_consensus']
-    df_selecionado = df[colunas_selecionadas]
+# Define the number of classes
+NUM_CLASSES = 6  # Replace with your actual number of classes
 
-    df = df_selecionado.drop_duplicates(subset=['eeg_id'], keep='first')
+def load_data_frame(path):
+    df = pd.read_csv(path)
+    df = df.drop_duplicates(subset=['eeg_id'], keep='first')
 
-    if show_logs:
-        print(df.head())
-        print("numero de espectrogramas: ",df.shape[0])
-    return df
+    dicionario_paciente = df.set_index('eeg_id').to_dict(orient='index')
+    dicionario = df.set_index('eeg_id').to_dict(orient='index')
+    print(df.head())
+    return df, dicionario_paciente, dicionario
 
-def get_labels_from_data_frame(df, show_logs=False):
-    df_labels = df['expert_consensus']
-    df_labels = df_labels.drop_duplicates()
+def get_label(id, df):
+  v = df[id]['expert_consensus']
+  return v
 
-    labels = df_labels.tolist()
-    if show_logs:
-        print(df_labels.head())
-        print(labels)
-    return labels
+def get_patient(id, df):
+  v = df[id]['patient_id']
+  return v
+
+def load_data(path_images, image_size, num_classes, dicionarios):
+    """Loads images and labels from NPY files."""
+    images = []
+    labels = []
+    groups = []
+    df = dicionarios["df"]
+
+    index = 0
+    for filename in os.listdir(path_images):
+
+        if filename.endswith(".npy"):
+            nome_sem_extensao = os.path.splitext(filename)[0]
+            nome_sem_extensao = int(nome_sem_extensao)
+            matches = df[df["eeg_id"] == nome_sem_extensao]
+
+            if len(matches) > 0:
+                v = matches.values[0]  # Get the first match
+            else:
+                print(f"No rows found for eeg_id: {nome_sem_extensao}")
+                continue
+
+            image_path = os.path.join(path_images, filename)
+            image = np.load(image_path)
+
+            # for canal in range(image.shape[2]):
+            #
+            #     new_image = image[:, :, canal]
+            #
+            #     new_image = cv2.resize(new_image, image_size)
+            #     new_image = np.expand_dims(new_image, axis=-1)  # Adiciona um novo eixo para o canal de cores
+            #     new_image = np.repeat(new_image, 3, axis=-1)
+            #     images.append(new_image)
+            #
+            #     label = get_label(nome_sem_extensao, dicionarios["dicionario"])
+            #     group = get_patient(nome_sem_extensao, dicionarios["dicionario_paciente"])
+            #
+            #     labels.append(label)
+            #     groups.append(group)
 
 
-def sets_train(df, n_folds=5):
-    X = df.drop('expert_consensus', axis=1)
-    y = df['expert_consensus']
-    groups = df['patient_id']
+            new_image = np.concatenate((image[:, :, 0], image[:, :, 1], image[:, :, 2], image[:, :, 3]), axis=1)
 
-    sgkf = StratifiedGroupKFold(n_splits=n_folds)
+            new_image = cv2.resize(new_image, image_size)
+            new_image = np.expand_dims(new_image, axis=-1)  # Adiciona um novo eixo para o canal de cores
+            new_image = np.repeat(new_image, 3, axis=-1)
+            images.append(new_image)
 
-    X_train_full = []
-    y_train_full = []
-    X_test = []
-    y_test = []
+            label = get_label(nome_sem_extensao, dicionarios["dicionario"])
+            group = get_patient(nome_sem_extensao, dicionarios["dicionario_paciente"])
 
-    # Itere sobre os folds
-    for train_index, test_index in sgkf.split(X, y, groups):
-        X_train, X_val = X.iloc[train_index], X.iloc[test_index]
-        y_train, y_val = y.iloc[train_index], y.iloc[test_index]
+            labels.append(label)
+            groups.append(group)
+            index += 1
+            if index % 100 == 0:
+                print(f">>>> load {index} images")
+                if index == 500:
+                    break
 
-        X_train_full.append(X_train)
-        y_train_full.append(y_train)
+    print(f"finish load {index} images")
+    label_encoder = LabelEncoder()
+    labels = label_encoder.fit_transform(labels)
 
-        X_test.append(X_val)
-        y_test.append(y_val)
+    images = np.array(images)
+    images = images.astype('float32') / 255.0
 
-    X_train_full = pd.concat(X_train_full)
-    y_train_full = pd.concat(y_train_full)
+    return images, labels, groups
 
-    X_test = pd.concat(X_test)
-    y_test = pd.concat(y_test)
+def create_classifier(image_size, num_classes):
 
-    scaler = StandardScaler()
-    X_train_full = scaler.fit_transform(X_train_full)
-    X_test = scaler.transform(X_test)
-    return X_train_full, y_train_full, X_test, y_test
+    base_model = EfficientNetB0(weights='imagenet', include_top=False, input_shape=(IMG_WIDTH, IMG_HEIGHT, 3))
+    for layer in base_model.layers:
+        layer.trainable = False
+    x = Flatten()(base_model.output)
+    x = Dense(256, activation='relu')(x)
+    predictions = Dense(num_classes, activation='softmax')(x)
+    # Cria o modelo
+    model = Model(inputs=base_model.input, outputs=predictions)
 
-
-def get_base_model(name, image_size):
-    if name == "imagenet":
-        keras_hub = "https://tfhub.dev/google/imagenet/resnet_v2_50/feature_vector/4"
-    else:
-        return None
-    return hub.KerasLayer(keras_hub,trainable=False, input_shape=(image_size, image_size, 3))
-
-def generate_model(name_base, image_size):
-    base_model = get_base_model(name_base, image_size)
-    model = keras.Sequential(
-        [
-            base_model,
-            layers.Dense(10, activation="softmax"),
-        ]
-    )
+    # Compila o modelo
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
-def train_model(model, x_train, y_train):
-    model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
-    model.fit(x_train, y_train, epochs=15, batch_size=32)
-
-def model_evaluete(model, x_test, y_test):
-    loss, accuracy = model.evaluate(x_test, y_test, verbose=0)
-    print("Loss:", loss)
-    print("Accuracy:", accuracy)
 
 
-def save_model(model, name):
-    model.save(f"../models/{name}.h5")
 
+if __name__ == "__main__":
+    df, dicionario_paciente, dicionario = load_data_frame(FILE_CONFIG_TRAIN)
 
-if __name__ == '__main__':
-    print("----------------------------")
-    print("TensorFlow:", tf.__version__)
-    print("Keras:", keras.__version__)
-    print("----------------------------")
+    dicionarios = {
+        "df": df,
+        "dicionario_paciente": dicionario_paciente,
+        "dicionario": dicionario
+    }
 
-    df = get_dataset_data_frame(show_logs=True)
-    labels = get_labels_from_data_frame(df, show_logs=True)
+    images, labels, groups = load_data(DATA_TRAIN, (IMG_WIDTH, IMG_HEIGHT), NUM_CLASSES, dicionarios)
+    n_folds = 5
+    print(images.shape)
+
+    sgkf = StratifiedGroupKFold(n_splits=n_folds, shuffle=True, random_state=42)
+
+    # ... seu código anterior
+    results = []
+
+    for fold, (train_index, val_index) in enumerate(sgkf.split(images, labels, groups)):
+        print(f"Fold {fold+1}")
+
+        X_train, X_val = images[train_index], images[val_index]
+        y_train, y_val = labels[train_index], labels[val_index]
+
+        y_train = tf.keras.utils.to_categorical(y_train, num_classes=NUM_CLASSES)
+        y_val = tf.keras.utils.to_categorical(y_val, num_classes=NUM_CLASSES)
+
+        model = create_classifier((IMG_WIDTH, IMG_HEIGHT), NUM_CLASSES)  # NUM_CLASSES = 6
+
+        model.compile(
+            optimizer='adam',
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
+
+        history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
+
+        scory = model.evaluate(X_val, y_val)
+        results.append(scory[1])
+    average_accuracy = sum(results) / len(results)
+    print(f"Acurácia média de cross-validation: {average_accuracy}")
