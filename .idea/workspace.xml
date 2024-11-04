@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f45994d-cb90-42e9-a051-3bbb0389c00d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TransferLearning/config-test.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TransferLearning/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/train.py" afterDir="false" />
     </list>
@@ -162,7 +161,7 @@
       <workItem from="1730666223019" duration="589000" />
       <workItem from="1730680595386" duration="13016000" />
       <workItem from="1730694250605" duration="323000" />
-      <workItem from="1730694580758" duration="22000" />
+      <workItem from="1730694580758" duration="1327000" />
     </task>
     <servers />
   </component>
@@ -173,7 +172,7 @@
     <SUITE FILE_PATH="coverage/test$train__2_.coverage" NAME="train Coverage Results" MODIFIED="1730694472737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TransferLearning" />
     <SUITE FILE_PATH="coverage/test$dataset.coverage" NAME="dataset Coverage Results" MODIFIED="1729989966178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/test$train_copy.coverage" NAME="train_copy Coverage Results" MODIFIED="1730080117204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TransferLearning" />
-    <SUITE FILE_PATH="coverage/test$train.coverage" NAME="train Coverage Results" MODIFIED="1730694583906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TransferLearning" />
+    <SUITE FILE_PATH="coverage/test$train.coverage" NAME="train Coverage Results" MODIFIED="1730694603354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TransferLearning" />
     <SUITE FILE_PATH="coverage/test$main.coverage" NAME="main Coverage Results" MODIFIED="1729984897011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/test$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1730001095112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ImageNet" />
     <SUITE FILE_PATH="coverage/test$spectrogram_from_eeg.coverage" NAME="spectrogram_from_eeg Coverage Results" MODIFIED="1730066109127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
