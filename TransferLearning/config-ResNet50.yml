@@ -1,0 +1,7 @@
+# config.yml
+model:
+  name: ResNet50  # Or any other model name
+  input_shape:
+    width: 224
+    height: 224
+    channels: 3
