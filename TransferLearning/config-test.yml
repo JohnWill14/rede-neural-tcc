@@ -1,0 +1,8 @@
+# config.yml
+model:
+  name: EfficientNetB0  # Or any other model name
+  epochs: 2
+  input_shape:
+    width: 224
+    height: 224
+    channels: 3
