@@ -106,8 +106,6 @@ def load_data(path_images, image_size, num_classes, dicionarios):
             index += 1
             if index % 100 == 0:
                 print(f">>>> load {index} images")
-                if index == 100:
-                    break
 
     print(f"finish load {index} images")
     label_encoder = LabelEncoder()

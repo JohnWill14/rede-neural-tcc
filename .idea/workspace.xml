@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f45994d-cb90-42e9-a051-3bbb0389c00d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransferLearning/config-ResNet50.yml" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/config-ResNet50.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransferLearning/config-VGG16.yml" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/config-VGG16.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransferLearning/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TransferLearning/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -240,7 +236,7 @@
       <workItem from="1730069953302" duration="1288000" />
       <workItem from="1730071432228" duration="17630000" />
       <workItem from="1730666223019" duration="589000" />
-      <workItem from="1730680595386" duration="9562000" />
+      <workItem from="1730680595386" duration="10285000" />
     </task>
     <servers />
   </component>
