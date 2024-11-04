@@ -198,7 +198,7 @@ if __name__ == "__main__":
 
         model = create_classifier(config, NUM_CLASSES)
         model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-        history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
+        history = model.fit(X_train, y_train, epochs=config['model']['epochs'], batch_size=32, validation_data=(X_val, y_val))
 
 
         loss, accuracy = model.evaluate(X_val, y_val)

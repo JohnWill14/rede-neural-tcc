@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f45994d-cb90-42e9-a051-3bbb0389c00d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TransferLearning/config-ResNet50.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TransferLearning/config-VGG16.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TransferLearning/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TransferLearning/config-ResNet50.yml" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/config-ResNet50.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TransferLearning/config-VGG16.yml" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/config-VGG16.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TransferLearning/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TransferLearning/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransferLearning/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +117,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spectrogram_from_eeg.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\johnw\PycharmProjects\test\spectrogram_from_eeg.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -241,7 +240,7 @@
       <workItem from="1730069953302" duration="1288000" />
       <workItem from="1730071432228" duration="17630000" />
       <workItem from="1730666223019" duration="589000" />
-      <workItem from="1730680595386" duration="8482000" />
+      <workItem from="1730680595386" duration="9562000" />
     </task>
     <servers />
   </component>
