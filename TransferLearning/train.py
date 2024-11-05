@@ -53,6 +53,17 @@ def get_patient(id, df):
 
 def load_data(path_images, image_size, num_classes, dicionarios):
     """Loads images and labels from NPY files."""
+
+     # Check if the data.npz file exists
+    # if os.path.exists("data.npz"):
+    #     print("Loading data from data.npz...")
+    #     data = np.load("data.npz")
+    #     images = data["images"]
+    #     labels = data["labels"]
+    #     groups = data["groups"]
+    #     print("finish loading data from data.npz")
+    #     return images, labels, groups
+
     images = []
     labels = []
     groups = []
@@ -114,6 +125,9 @@ def load_data(path_images, image_size, num_classes, dicionarios):
     images = np.array(images)
     images = images.astype('float32') / 255.0
 
+    # print("save datas")
+    # np.savez("./data.npz", images=images, labels=labels, groups=groups)
+    # print(f"finish save datas")
     return images, labels, groups
 
 def create_classifier(config, num_classes):
